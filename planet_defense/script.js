@@ -136,7 +136,7 @@ class Enemy {
     this.height = this.radius * 2;
     this.speedX = 0;
     this.speedY = 0;
-    this.speedModifier = Math.random() * 0.5 + 0.1;
+    this.speedModifier = Math.random() * 0.5 - 0.25;
     this.angle = 0;
     this.collided = false;
     this.free = true;
@@ -144,8 +144,16 @@ class Enemy {
   }
 
   generateEquation() {
-    const a = Math.floor(Math.random() * 11);
-    const b = Math.floor(Math.random() * 11);
+    let a, b;
+    if (Math.random() < 0.5) {
+      // 50% chance to generate a matching equation
+      a = Math.floor(Math.random() * 11); // random number between 0 and 10
+      b = this.game.planet.number - a; // the difference to make the sum equal to the planet's number
+    } else {
+      // Generate a random equation
+      a = Math.floor(Math.random() * 11);
+      b = Math.floor(Math.random() * 11);
+    }
     return `${a} + ${b}`;
   }
 
@@ -203,7 +211,7 @@ class Enemy {
       );
       
       context.font = "40px Arial";
-      context.fillStyle = "purple";
+      context.fillStyle = "white";
       context.fillText(this.equation, 0, 0);
 
       if (this.game.debug) {
@@ -249,15 +257,18 @@ class Enemy {
         ) {
           projectile.reset();
           this.hit(1);
-          this.game.checkAnswer(this);
+          
         }
       });
       //sprite animation
       if (this.lives < 1 && this.game.spriteUpdate) {
         this.frameX++;
+      
       }
+     
 
       if (this.frameX > this.maxFrame) {
+        this.game.checkAnswer(this);
         this.reset();
         if (!this.collided && !this.game.gameOver)
           this.game.score += this.maxLives;
@@ -495,7 +506,7 @@ class Game {
   drawTryAgainButton(context) {
     if (this.gameOver) {
       // Draw the button
-      context.fillStyle = "#00bfff"; // Button color
+      context.fillStyle = "purple"; // Button color
       context.fillRect(this.width / 2 - 100, this.height / 2, 200, 60); // Button size and position
 
       // Button text
@@ -508,12 +519,8 @@ class Game {
   checkAnswer(enemy) {
     if (enemy.getAnswer() === this.planet.number) {
       this.correctHits++;
-      enemy.reset();
-      if (this.correctHits % 5 === 0) {
-        // Every 5 correct hits, reset planet and enemies
-        this.planet.reset();
-        this.enemyPool.forEach((enemy) => enemy.reset());
-      }
+      this.planet.number = this.planet.generateRandomNumber(); // Change the planet's number
+      this.enemyPool.forEach((enemy) => enemy.generateEquation()); // Reset enemies to generate new equations
     }
   }
 }
