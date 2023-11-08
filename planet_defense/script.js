@@ -201,9 +201,10 @@ class Enemy {
         this.width,
         this.height
       );
-      context.fillText(this.equation, 0, 0);
-      context.font = "10px Arial";
+      
+      context.font = "40px Arial";
       context.fillStyle = "purple";
+      context.fillText(this.equation, 0, 0);
 
       if (this.game.debug) {
         context.beginPath();
@@ -401,6 +402,7 @@ class Game {
   drawStatusText(context) {
     context.save();
     context.textAlign = "left";
+    context.fillStyle = "white";
     context.font = "30px Impact";
     context.fillText("Score: " + this.score, 20, 30);
     for (let i = 0; i < this.lives; i++) {
