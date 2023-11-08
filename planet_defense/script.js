@@ -217,6 +217,11 @@ class Enemy {
   }
 
   update() {
+    if (this.game.gameOver) {
+      return; // Stop updating if the game is over
+    } else{
+
+    
     if (!this.free) {
       this.x += this.speedX;
       this.y += this.speedY;
@@ -259,6 +264,7 @@ class Enemy {
       }
     }
   }
+}
 }
 
 class Asteroid extends Enemy {
@@ -334,7 +340,7 @@ class Game {
     this.spriteInterval = 150;
     this.score = 0;
     this.winningScore = 30;
-    this.lives = 15;
+    this.lives = 1;
 
     this.correctHits = 0;
 
@@ -350,6 +356,9 @@ class Game {
     });
 
     window.addEventListener("mousedown", (e) => {
+
+      if (this.gameOver) return;
+
       this.mouse.x = e.offsetX;
       this.mouse.y = e.offsetY;
       this.player.shoot();
@@ -364,11 +373,13 @@ class Game {
     this.planet.draw(context);
     this.drawStatusText(context);
     this.player.draw(context);
+    this.drawTryAgainButton(context);
     this.player.update();
     this.projectilePool.forEach((projectile) => {
       projectile.draw(context);
       projectile.update();
     });
+    
 
     this.enemyPool.forEach((enemy) => {
       enemy.draw(context);
@@ -392,6 +403,7 @@ class Game {
       this.spriteTimer = 0;
       this.spriteUpdate = true;
     }
+    
 
     //win / lose condition
     if (this.score >= this.winningScore || this.lives < 1) {
@@ -425,9 +437,12 @@ class Game {
       context.fillText(message1, this.width * 0.5, 200);
       context.font = "50px Impact";
       context.fillText(message2, this.width * 0.5, 550);
+    
+
     }
     context.restore();
   }
+  
 
   calcAim(a, b) {
     const dx = a.x - b.x;
@@ -477,6 +492,18 @@ class Game {
       if (this.enemyPool[i].free) return this.enemyPool[i];
     }
   }
+  drawTryAgainButton(context) {
+    if (this.gameOver) {
+      // Draw the button
+      context.fillStyle = "#00bfff"; // Button color
+      context.fillRect(this.width / 2 - 100, this.height / 2, 200, 60); // Button size and position
+
+      // Button text
+      context.fillStyle = "white";
+      context.font = "30px Arial";
+      context.fillText("Try Again", this.width / 2, this.height / 2 + 40);
+    }
+  }
 
   checkAnswer(enemy) {
     if (enemy.getAnswer() === this.planet.number) {
@@ -503,8 +530,23 @@ window.addEventListener("load", function () {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  const game = new Game(canvas);
+  let game = new Game(canvas);
   let lastTime = 0;
+
+  canvas.addEventListener("click", function(event) {
+    if (game.gameOver) {
+      // Get the click position
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      // Check if the click is within the button's bounds
+      if (x > game.width / 2 - 100 && x < game.width / 2 + 100 && y > game.height / 2 && y < game.height / 2 + 60) {
+        // Restart the game
+        game = new Game(canvas);
+      }
+    }
+  });
 
   function animate(timeStamp) {
     const deltaTime = timeStamp - lastTime;
