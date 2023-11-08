@@ -5,9 +5,18 @@ class Planet {
     this.y = this.game.height * 0.5;
     this.radius = 80;
     this.image = document.getElementById("planet");
+
+    this.number = this.generateRandomNumber();
+  }
+
+  generateRandomNumber() {
+    return Math.floor(Math.random() * 21);
   }
   draw(context) {
     context.drawImage(this.image, this.x - 100, this.y - 100);
+    context.font = "100px Arial";
+    context.fillStyle = "purple";
+    context.fillText(this.number, this.x - 10, this.y + 10);
     if (this.game.debug) {
       context.beginPath();
       context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -39,6 +48,10 @@ class Player {
     }
 
     context.restore();
+  }
+
+  reset() {
+    this.number = this.generateRandomNumber();
   }
   update() {
     this.aim = this.game.calcAim(this.game.planet, this.game.mouse);
@@ -127,6 +140,13 @@ class Enemy {
     this.angle = 0;
     this.collided = false;
     this.free = true;
+    this.equation = this.generateEquation();
+  }
+
+  generateEquation() {
+    const a = Math.floor(Math.random() * 11);
+    const b = Math.floor(Math.random() * 11);
+    return `${a} + ${b}`;
   }
 
   start() {
@@ -153,6 +173,11 @@ class Enemy {
 
   reset() {
     this.free = true;
+    this.equation = this.generateEquation();
+  }
+  getAnswer() {
+    const parts = this.equation.split(" + ");
+    return Number(parts[0]) + Number(parts[1]);
   }
 
   hit(damage) {
@@ -176,6 +201,10 @@ class Enemy {
         this.width,
         this.height
       );
+      context.fillText(this.equation, 0, 0);
+      context.font = "10px Arial";
+      context.fillStyle = "purple";
+
       if (this.game.debug) {
         context.beginPath();
         context.arc(0, 0, this.radius, 0, Math.PI * 2);
@@ -214,6 +243,7 @@ class Enemy {
         ) {
           projectile.reset();
           this.hit(1);
+          this.game.checkAnswer(this);
         }
       });
       //sprite animation
@@ -223,7 +253,8 @@ class Enemy {
 
       if (this.frameX > this.maxFrame) {
         this.reset();
-        if (!this.collided && !this.game.gameOver) this.game.score += this.maxLives; 
+        if (!this.collided && !this.game.gameOver)
+          this.game.score += this.maxLives;
       }
     }
   }
@@ -254,28 +285,28 @@ class Lobstermorph extends Enemy {
 }
 
 class Beetlemorph extends Enemy {
-    constructor(game) {
-      super(game);
-      this.image = document.getElementById("beetlemorph");
-      this.frameX = 0;
-      this.frameY = Math.floor(Math.random() * 4);
-      this.maxFrame = 3;
-      this.lives = 1;
-      this.maxLives = this.lives;
-    }
+  constructor(game) {
+    super(game);
+    this.image = document.getElementById("beetlemorph");
+    this.frameX = 0;
+    this.frameY = Math.floor(Math.random() * 4);
+    this.maxFrame = 3;
+    this.lives = 1;
+    this.maxLives = this.lives;
   }
+}
 
-  class Rhinomorph extends Enemy {
-    constructor(game) {
-      super(game);
-      this.image = document.getElementById("rhinomorph");
-      this.frameX = 0;
-      this.frameY = Math.floor(Math.random() * 4);
-      this.maxFrame = 6;
-      this.lives = 4;
-      this.maxLives = this.lives;
-    }
+class Rhinomorph extends Enemy {
+  constructor(game) {
+    super(game);
+    this.image = document.getElementById("rhinomorph");
+    this.frameX = 0;
+    this.frameY = Math.floor(Math.random() * 4);
+    this.maxFrame = 6;
+    this.lives = 4;
+    this.maxLives = this.lives;
   }
+}
 
 class Game {
   constructor(canvas) {
@@ -303,6 +334,8 @@ class Game {
     this.score = 0;
     this.winningScore = 30;
     this.lives = 15;
+
+    this.correctHits = 0;
 
     this.mouse = {
       x: 0,
@@ -370,10 +403,10 @@ class Game {
     context.textAlign = "left";
     context.font = "30px Impact";
     context.fillText("Score: " + this.score, 20, 30);
-    for(let i = 0; i < this.lives; i++){
-        context.fillRect(20 + 15 * i, 60, 10, 30);
+    for (let i = 0; i < this.lives; i++) {
+      context.fillRect(20 + 15 * i, 60, 10, 30);
     }
-   
+
     if (this.gameOver) {
       context.textAlign = "center";
       let message1;
@@ -382,7 +415,7 @@ class Game {
       if (this.score >= this.winningScore) {
         message1 = "You win!";
         message2 = "Your score is " + this.score + "!";
-      } else{
+      } else {
         message1 = "You lose!";
         message2 = "Try Again!";
       }
@@ -424,25 +457,34 @@ class Game {
 
   createEnemyPool() {
     for (let i = 0; i < this.numberOfEnemies; i++) {
-        let randomNumber = Math.random();
-        if(randomNumber < 0.25){
-            this.enemyPool.push(new Asteroid(this));
-        } else if(randomNumber < 0.5){
-            this.enemyPool.push(new Beetlemorph(this));
-        }
-        else if(randomNumber < 0.75){
-            this.enemyPool.push(new Rhinomorph(this));
-        }else{
-            this.enemyPool.push(new Lobstermorph(this));
-        }
-      
-      
+      let randomNumber = Math.random();
+      if (randomNumber < 0.25) {
+        this.enemyPool.push(new Asteroid(this));
+      } else if (randomNumber < 0.5) {
+        this.enemyPool.push(new Beetlemorph(this));
+      } else if (randomNumber < 0.75) {
+        this.enemyPool.push(new Rhinomorph(this));
+      } else {
+        this.enemyPool.push(new Lobstermorph(this));
+      }
     }
   }
 
   getEnemy() {
     for (let i = 0; i < this.enemyPool.length; i++) {
       if (this.enemyPool[i].free) return this.enemyPool[i];
+    }
+  }
+
+  checkAnswer(enemy) {
+    if (enemy.getAnswer() === this.planet.number) {
+      this.correctHits++;
+      enemy.reset();
+      if (this.correctHits % 5 === 0) {
+        // Every 5 correct hits, reset planet and enemies
+        this.planet.reset();
+        this.enemyPool.forEach((enemy) => enemy.reset());
+      }
     }
   }
 }
