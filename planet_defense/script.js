@@ -188,6 +188,10 @@ class Enemy {
     return Number(parts[0]) + Number(parts[1]);
   }
 
+  resetEquation() {
+    this.equation = this.generateEquation();
+  }
+
   hit(damage) {
     this.lives -= damage;
     if (this.lives >= 1) this.frameX++;
@@ -269,6 +273,7 @@ class Enemy {
 
       if (this.frameX > this.maxFrame) {
         this.game.checkAnswer(this);
+        this.game.enemyPool.forEach((enemy) => {enemy.resetEquation()});
         this.reset();
         if (!this.collided && !this.game.gameOver)
           this.game.score += this.maxLives;
