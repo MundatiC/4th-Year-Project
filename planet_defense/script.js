@@ -364,6 +364,8 @@ class Game {
       x: 0,
       y: 0,
     };
+
+    this.wrongAnswers = [];
     // event listeners
 
     window.addEventListener("mousemove", (e) => {
@@ -401,6 +403,8 @@ class Game {
       enemy.draw(context);
       enemy.update();
     });
+
+    
     // periodically activate an enemy
     if (!this.gameOver) {
       if (this.enemyTimer < this.enemyInterval) {
@@ -452,6 +456,8 @@ class Game {
       context.font = "100px Impact";
       context.fillText(message1, this.width * 0.5, 200);
       context.font = "50px Impact";
+
+      this.displayWrongAnswers(context);
       context.fillText(message2, this.width * 0.5, 550);
     
 
@@ -522,10 +528,36 @@ class Game {
   }
 
   checkAnswer(enemy) {
-    if (enemy.getAnswer() === this.planet.number) {
+    const correctAnswer = enemy.getAnswer();
+    if (correctAnswer === this.planet.number) {
       this.correctHits++;
-      this.planet.number = this.planet.generateRandomNumber(); // Change the planet's number
-      this.enemyPool.forEach((enemy) => enemy.generateEquation()); // Reset enemies to generate new equations
+      this.enemyPool.forEach((enemy) => enemy.resetEquation());
+    } else {
+      this.wrongHits++; // Count wrong hit
+      this.wrongAnswers.push({
+        equation: enemy.equation,
+        correctAnswer: correctAnswer,
+        playerAnswer: this.planet.number
+      });
+      enemy.reset();
+    }
+  }
+
+  displayWrongAnswers(context) {
+    if (this.gameOver) {
+      let startY = this.height / 2 + 100; // Starting Y position for the list
+      context.fillStyle = "white";
+      context.font = "20px Arial";
+      context.fillText("Wrong Answers:", this.width / 2, startY);
+
+      this.wrongAnswers.forEach(wrong => {
+        startY += 30; // Increment Y position for each wrong answer
+        context.fillText(
+          `${wrong.equation} = ${wrong.playerAnswer} (Correct: ${wrong.correctAnswer})`,
+          this.width / 2,
+          startY
+        );
+      });
     }
   }
 }
