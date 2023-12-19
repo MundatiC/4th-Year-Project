@@ -1,66 +1,68 @@
 /* Layout */
-body{
+body {
 	margin: 0;
   }
-  .main {
-	  display: flex;
-	  padding: 2em;
-	  height: 100vh;
-	  justify-content: center;
-	  align-items: middle;
-	background-color: grey;
   
+  .main {
+	display: flex;
+	flex-direction: row;
+	padding: 2em;
+	height: 100vh;
+	justify-content: center;
+	align-items: middle;
   }
   
   .clockbox,
   #clock {
-	  width: 100%;
+	width: 100%;
   }
   
   /* Clock styles */
   .circle {
-	  fill: burlywood;
-	  stroke: #000;
-	  stroke-width: 5;
-	  stroke-miterlimit: 10;
+	fill: #87ceeb; /* SkyBlue */
+	stroke: #000;
+	stroke-width: 5;
+	stroke-miterlimit: 10;
   }
   
   .mid-circle {
-	  fill: #000;
+	fill: #000;
   }
+  
   .small-circle {
-	  fill: #fff;
+	fill: #fff;
   }
+  
   .hour-text {
-	  font-size: 1.5em;
-	  font-weight: bold;
-	  fill: #000;
+	font-size: 1.5em;
+	font-weight: bold;
+	fill: #000;
   }
   
   .hour-arm {
-	  fill: none;
-	  stroke: #000;
-	  stroke-width: 17;
-	  stroke-miterlimit: 10;
+	fill: none;
+	stroke: #ff6347; /* Tomato */
+	stroke-width: 17;
+	stroke-miterlimit: 10;
   }
   
   .minute-arm {
-	  fill: none;
-	  stroke: #000;
-	  stroke-width: 11;
-	  stroke-miterlimit: 10;
+	fill: none;
+	stroke: #ff69b4; /* HotPink */
+	stroke-width: 11;
+	stroke-miterlimit: 10;
   }
   
   .second-arm {
-	  fill: none;
-	  stroke: rgb(255, 255, 255);
-	  stroke-width: 4;
-	  stroke-miterlimit: 10;
+	fill: none;
+	stroke: #32cd32; /* LimeGreen */
+	stroke-width: 4;
+	stroke-miterlimit: 10;
   }
   
   /* Transparent box ensuring arms center properly. */
   .sizing-box {
-	  fill: none;
+	fill: none;
   }
   
   /* Make all arms rotate around the same center point. */
@@ -68,6 +70,72 @@ body{
   #hour,
   #minute,
   #second {
-	  transform-origin: 300px 300px;
-	  transition: transform .5s ease-in-out;
+	transform-origin: 300px 300px;
+	transition: transform 0.5s ease-in-out;
   }
+
+  /* Digital Clock styles */
+.digital-clock {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+  }
+  
+  label {
+	font-size: 1.2em;
+	margin-bottom: 5px;
+	color: #4caf50; /* Green */
+  }
+  
+  input {
+	font-size: 1em;
+	padding: 8px;
+	margin-bottom: 10px;
+	width: 60px;
+	text-align: center;
+	border: 2px solid #4caf50; /* Green border */
+	border-radius: 5px;
+	color: #333; /* Dark gray text color */
+  }
+  
+  /* Submit Button */
+  #submitButton {
+	font-size: 1em;
+	padding: 10px 20px;
+	background-color: #4caf50; /* Green */
+	color: #fff; /* White text color */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+  }
+  
+  #submitButton:disabled {
+	background-color: #ccc; /* Light gray for disabled state */
+	cursor: not-allowed;
+  }
+  
+  /* Feedback Text */
+  #feedbackText {
+	font-size: 1.2em;
+	margin-top: 10px;
+	color: #ff6347; /* Tomato */
+  }
+
+  /* Responsive Styles */
+@media (max-width: 768px) {
+	.main {
+	  padding: 1em;
+	  flex-direction: column;
+	}
+  
+	.clockbox {
+	  max-width: 400px;
+	}
+  
+	.digital-clock input {
+	  width: 50px;
+	}
+  }
+  
+  

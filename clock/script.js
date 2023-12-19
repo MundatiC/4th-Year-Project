@@ -2,6 +2,10 @@ const HOURHAND = document.querySelector("#hour");
 const MINUTEHAND = document.querySelector("#minute");
 const SECONDHAND = document.querySelector("#second");
 
+const submitButton = document.getElementById("submit");
+
+const feedbackText = document.getElementById("feedback");
+
 const digitalHoursInput = document.getElementById("hours");
 const digitalMinutesInput = document.getElementById("minutes");
 const digitalSecondsInput = document.getElementById("seconds");
@@ -9,6 +13,15 @@ const digitalSecondsInput = document.getElementById("seconds");
 let isDraggingHour = false;
 let isDraggingMinute = false;
 let isDraggingSecond = false;
+
+// Sample quiz data
+const quizData = [
+    { hours: 9, minutes: 15 },
+    { hours: 10, minutes: 20 },
+    // Add more quiz data as needed
+];
+
+let currentQuestionIndex = -1;
 
 
 
@@ -116,8 +129,55 @@ function handleMouseUpSecond() {
     document.removeEventListener("mouseup", handleMouseUpSecond);
 }
 
+function getNextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+        const question = quizData[currentQuestionIndex];
+        setAnalogClockValues(question.hours, question.minutes, 0);
+        feedbackText.textContent = "";
+    } else {
+        // Quiz completed
+        feedbackText.textContent = "Quiz completed!";
+        submitButton.disabled = true;
+    }
+}
+
+function setAnalogClockValues(hours, minutes, seconds) {
+   
+
+
+		const clockCenterX = window.innerWidth / 2;
+		const clockCenterY = window.innerHeight / 2;
+	
+		let hrPosition = (hours % 12) * 360 / 12;
+		let minPosition = minutes * 360 / 60;
+		let secPosition = seconds * 360 / 60;
+	
+	   
+	
+		HOURHAND.style.transform = `rotate(${hrPosition}deg)`;
+		MINUTEHAND.style.transform = `rotate(${minPosition}deg)`;
+		SECONDHAND.style.transform = `rotate(${secPosition}deg)`;
+	
+		
+}
+
+submitButton.addEventListener("click", function () {
+    const question = quizData[currentQuestionIndex];
+    const userHours = parseInt(digitalHoursInput.value);
+    const userMinutes = parseInt(digitalMinutesInput.value);
+
+    if (userHours === question.hours && userMinutes === question.minutes) {
+        feedbackText.textContent = "Correct!";
+		getNextQuestion();
+    } else {
+        feedbackText.textContent = "Incorrect. Try again.";
+    }
+});
+
 HOURHAND.addEventListener("mousedown", handleMouseDownHour);
 MINUTEHAND.addEventListener("mousedown", handleMouseDownMinute);
 SECONDHAND.addEventListener("mousedown", handleMouseDownSecond);
 
-var interval = setInterval(runTheClock, 1000);
+// Initialize the quiz
+getNextQuestion();
