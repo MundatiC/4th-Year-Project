@@ -21,9 +21,14 @@ function calculateAngle(x, y, centerX, centerY) {
 
 
 function runTheClock() {
-    let hrPosition = (digitalHoursInput.value % 12) * 360 / 12 + (digitalMinutesInput.value * (360 / 60) / 12);
-    let minPosition = digitalMinutesInput.value * 360 / 60 + (digitalSecondsInput.value * (360 / 60) / 60);
+    const clockCenterX = window.innerWidth / 2;
+    const clockCenterY = window.innerHeight / 2;
+
+    let hrPosition = (digitalHoursInput.value % 12) * 360 / 12;
+    let minPosition = digitalMinutesInput.value * 360 / 60;
     let secPosition = digitalSecondsInput.value * 360 / 60;
+
+   
 
     HOURHAND.style.transform = `rotate(${hrPosition}deg)`;
     MINUTEHAND.style.transform = `rotate(${minPosition}deg)`;

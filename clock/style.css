@@ -21,7 +21,7 @@ body{
   .circle {
 	  fill: burlywood;
 	  stroke: #000;
-	  stroke-width: 15;
+	  stroke-width: 5;
 	  stroke-miterlimit: 10;
   }
   
@@ -31,11 +31,10 @@ body{
   .small-circle {
 	  fill: #fff;
   }
-  .hour-marks {
-	  fill: none;
-	  stroke: #000;
-	  stroke-width: 9;
-	  stroke-miterlimit: 10;
+  .hour-text {
+	  font-size: 1.5em;
+	  font-weight: bold;
+	  fill: #000;
   }
   
   .hour-arm {
