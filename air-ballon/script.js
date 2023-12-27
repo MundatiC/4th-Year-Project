@@ -541,7 +541,7 @@ function hitDetection() {
           // If the balloon hits a tree with a fuel tank, increase fuel and continue the game
           fuel += 5; // Adjust the fuel increment as needed
 
-          if(mathProblem){generateMathProblemForBalloon();}
+          generateMathProblemForBalloon();
           
 
           return false;
