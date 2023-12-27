@@ -71,8 +71,14 @@ function resetGame() {
     backgroundTrees = [];
     for (let i = 1; i < window.innerWidth / 30; i++) generateBackgroundTree();
 
-    mathProblem = generateMathProblem();
-    console.log(mathProblem)
+    mathProblem = generateMathProblem(); 
+    
+    
+    const numberOfFuelTanks = 30; // Adjust the number as needed
+    for (let i = 0; i < numberOfFuelTanks; i++) {
+        const randomTreeIndex = Math.floor(Math.random() * trees.length);
+        trees[randomTreeIndex].mathProblem = generateMathProblem();
+      }
 
     draw();
 }
@@ -97,18 +103,31 @@ function generateBackgroundTree() {
 }
 
 function generateMathProblem() {
-    const operand1 = Math.floor(Math.random() * 10) + 1;
-    const operand2 = Math.floor(Math.random() * 10) + 1;
-    const operator = Math.random() < 0.5 ? '+' : '-';
-
-    const problem = `${operand1} ${operator} ${operand2}`;
-    const solution = eval(problem);
-
-    return { problem, solution };
-}
+    const operators = ['+', '-', '*'];
+    const operator = operators[Math.floor(Math.random() * operators.length)];
+  
+    let num1 = Math.floor(Math.random() * 10) + 1;
+    let num2 = Math.floor(Math.random() * 10) + 1;
+  
+    let solution;
+  
+    
+   
+      solution = eval(`${num1} ${operator} ${num2}`);
+      
+    
+  
+    return {
+      expression: `${num1} ${operator} ${num2}`,
+      solution: solution
+    };
+  }
+  
+  
 
 
 function drawMathProblem() {
+   
     if (mathProblem) {
       ctx.save();
       ctx.translate(balloonX, balloonY - 20); // Adjust the position to your preference
@@ -120,10 +139,33 @@ function drawMathProblem() {
       ctx.textBaseline = "middle";
   
       // Display the math problem
-      ctx.fillText(mathProblem.problem, 0, 0);
+      ctx.fillText(mathProblem.expression, 0, 0);
+
+      
   
       ctx.restore();
     }
+  }
+
+  function drawFuelTanks() {
+    trees.forEach(({ x, h, color, mathProblem }) => {
+        console.log(mathProblem)
+      if (mathProblem) {
+        console.log("hello")
+        const tankX = x;
+        const tankY = -h - 60;
+  
+        ctx.fillStyle = "#FF0000"; // Green for correct
+        ctx.fillRect(tankX - 10, tankY, 20, 20);
+  
+        // Display the answer on the fuel tank
+        ctx.fillStyle = "black";
+        ctx.font = "bold 12px Tahoma";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(mathProblem.solution, tankX, tankY + 10);
+      }
+    });
   }
 
 function generateTree() {
@@ -252,9 +294,14 @@ function draw() {
     drawTrees();
     drawBalloon();
     drawMathProblem();
+    drawFuelTanks();
+   
+   
+    
 
     // Restore transformation
     ctx.restore();
+    
 
     // Header is last because it's on top of everything else
     drawHeader();
@@ -451,39 +498,86 @@ function getTreeY(x, baseHeight, amplitude) {
     return Math.sinus(x) * amplitude + sineBaseY;
 }
 
+function  generateMathProblemForBalloon() {
+    // Generate a new math problem for the balloon
+    const newMathProblem = generateMathProblem();
+  
+    // Assign the new math problem to the balloon
+    mathProblem = newMathProblem;
+    drawMathProblem();
+  }
+
 function hitDetection() {
     const cartBottomLeft = { x: balloonX - 30, y: balloonY };
     const cartBottomRight = { x: balloonX + 30, y: balloonY };
     const cartTopRight = { x: balloonX + 30, y: balloonY - 40 };
+  
+    for (const { x, h, r1, r2, r3, r4, r5, mathProblem } of trees) {
+      const treeBottomLeft = { x: x - 20, y: -h - 15 };
+      const treeLeft = { x: x - 30, y: -h - 25 };
+      const treeTopLeft = { x: x - 20, y: -h - 35 };
+      const treeTop = { x: x, y: -h - 45 };
+      const treeTopRight = { x: x + 20, y: -h - 35 };
+  
+      if (mathProblem) {
+        // Check if the balloon hits a tree with a fuel tank
+        if (
+          isPointInsideCircle(cartBottomLeft, treeBottomLeft, r1) ||
+          isPointInsideCircle(cartBottomRight, treeBottomLeft, r1) ||
+          isPointInsideCircle(cartTopRight, treeBottomLeft, r1) ||
+          isPointInsideCircle(cartBottomLeft, treeLeft, r2) ||
+          isPointInsideCircle(cartBottomRight, treeLeft, r2) ||
+          isPointInsideCircle(cartTopRight, treeLeft, r2) ||
+          isPointInsideCircle(cartBottomLeft, treeTopLeft, r3) ||
+          isPointInsideCircle(cartBottomRight, treeTopLeft, r3) ||
+          isPointInsideCircle(cartTopRight, treeTopLeft, r3) ||
+          isPointInsideCircle(cartBottomLeft, treeTop, r4) ||
+          isPointInsideCircle(cartBottomRight, treeTop, r4) ||
+          isPointInsideCircle(cartTopRight, treeTop, r4) ||
+          isPointInsideCircle(cartBottomLeft, treeTopRight, r5) ||
+          isPointInsideCircle(cartBottomRight, treeTopRight, r5) ||
+          isPointInsideCircle(cartTopRight, treeTopRight, r5)
+        ) {
+          // If the balloon hits a tree with a fuel tank, increase fuel and continue the game
+          fuel += 5; // Adjust the fuel increment as needed
 
-    for (const { x, h, r1, r2, r3, r4, r5 } of trees) {
-        const treeBottomLeft = { x: x - 20, y: -h - 15 };
-        const treeLeft = { x: x - 30, y: -h - 25 };
-        const treeTopLeft = { x: x - 20, y: -h - 35 };
-        const treeTop = { x: x, y: -h - 45 };
-        const treeTopRight = { x: x + 20, y: -h - 35 };
+          if(mathProblem){generateMathProblemForBalloon();}
+          
 
-        if (getDistance(cartBottomLeft, treeBottomLeft) < r1) return true;
-        if (getDistance(cartBottomRight, treeBottomLeft) < r1) return true;
-        if (getDistance(cartTopRight, treeBottomLeft) < r1) return true;
-
-        if (getDistance(cartBottomLeft, treeLeft) < r2) return true;
-        if (getDistance(cartBottomRight, treeLeft) < r2) return true;
-        if (getDistance(cartTopRight, treeLeft) < r2) return true;
-
-        if (getDistance(cartBottomLeft, treeTopLeft) < r3) return true;
-        if (getDistance(cartBottomRight, treeTopLeft) < r3) return true;
-        if (getDistance(cartTopRight, treeTopLeft) < r3) return true;
-
-        if (getDistance(cartBottomLeft, treeTop) < r4) return true;
-        if (getDistance(cartBottomRight, treeTop) < r4) return true;
-        if (getDistance(cartTopRight, treeTop) < r4) return true;
-
-        if (getDistance(cartBottomLeft, treeTopRight) < r5) return true;
-        if (getDistance(cartBottomRight, treeTopRight) < r5) return true;
-        if (getDistance(cartTopRight, treeTopRight) < r5) return true;
+          return false;
+        }
+      } else {
+        // If the tree does not have a fuel tank, continue with the existing hit detection logic
+        if (isPointInsideCircle(cartBottomLeft, treeBottomLeft, r1) ||
+            isPointInsideCircle(cartBottomRight, treeBottomLeft, r1) ||
+            isPointInsideCircle(cartTopRight, treeBottomLeft, r1) ||
+            isPointInsideCircle(cartBottomLeft, treeLeft, r2) ||
+            isPointInsideCircle(cartBottomRight, treeLeft, r2) ||
+            isPointInsideCircle(cartTopRight, treeLeft, r2) ||
+            isPointInsideCircle(cartBottomLeft, treeTopLeft, r3) ||
+            isPointInsideCircle(cartBottomRight, treeTopLeft, r3) ||
+            isPointInsideCircle(cartTopRight, treeTopLeft, r3) ||
+            isPointInsideCircle(cartBottomLeft, treeTop, r4) ||
+            isPointInsideCircle(cartBottomRight, treeTop, r4) ||
+            isPointInsideCircle(cartTopRight, treeTop, r4) ||
+            isPointInsideCircle(cartBottomLeft, treeTopRight, r5) ||
+            isPointInsideCircle(cartBottomRight, treeTopRight, r5) ||
+            isPointInsideCircle(cartTopRight, treeTopRight, r5)) {
+          // If the balloon hits a tree without a fuel tank, end the game
+          return true;
+        }
+      }
     }
-}
+  
+    // If the balloon does not hit any tree, continue the game
+    return false;
+  }
+  
+  function isPointInsideCircle(point, circleCenter, radius) {
+    const distanceSquared = (point.x - circleCenter.x) ** 2 + (point.y - circleCenter.y) ** 2;
+    return distanceSquared <= radius ** 2;
+  }
+  
 
 function getDistance(point1, point2) {
     return Math.sqrt((point2.x - point1.x) ** 2 + (point2.y - point1.y) ** 2);
