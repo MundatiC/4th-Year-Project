@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Box Wars--Math by Leander</title>
+	</head>
+	<body>
+		<div id="settings">
+			<span>
+				<button id="Speed" ontouchstart="changeSettings(this)" onclick="changeSettings(this)">Speed: Slow</button>
+			</span>
+			<span>
+				<button id="Math" ontouchstart="changeSettings(this)" onclick="changeSettings(this)">Math: Add</button>
+			</span>
+			<span>
+				<button id="Numbers" ontouchstart="changeSettings(this)" onclick="changeSettings(this)">Numbers: Small</button>
+			</span>
+			<span>
+				<button id="Volume" ontouchstart="changeSettings(this)" onclick="changeSettings(this)">Volume: High</button>
+			</span>
+		</div>
+		<div id="credits">
+
+			<li>Main Song: <a href="http://freemusicarchive.org/music/BoxCat_Games/Nameless_the_Hackers_RPG_Soundtrack/BoxCat_Games_-_Nameless-_the_Hackers_RPG_Soundtrack_-_21_Rhythm">"Rhythm" by BoxCat Games</a></li>
+			<li>Game Over Song: <a href="http://freemusicarchive.org/music/Ryan_Little/~/Game_Over_Life_Is_1206">"Game Over (Life is...)" by Ryan Little</a></li>
+			<li>You-Win Song: <a href="http://freemusicarchive.org/music/BoxCat_Games/Nameless_the_Hackers_RPG_Soundtrack/BoxCat_Games_-_Nameless-_the_Hackers_RPG_Soundtrack_-_07_Inspiration">"Inspiration" by BoxCat Games</a></li>
+		</div>
+
+		<style>
+			body,input,button {
+				font-size: 24px;
+				font-family: Tahoma;
+				background-color: black;
+				color: white;
+				-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+			}
+			#settings {
+				position: absolute;
+				top: 625px;
+				left:30px;
+			}
+			#settings span {
+				width: 200px;
+			}
+			#credits {
+				color: gray;
+				position: absolute;
+				top: 680px;
+				left:30px;
+				list-style: none;
+				font-size: 8px;
+			}
+			#credits a {
+				color: #a8b;
+				opacity: .8;
+
+			}
+			#playAgain {
+				font-size: 100px;
+				border: 2px solid white;
+				padding-left: 25px;
+				padding-right: 25px;
+				text-align: center;
+				border-radius: 25px 25px 25px 25px;
+				width: 800px;
+			}
+			#score {
+				font-size: 50px;
+			}
+		</style>
+		<script src="math.js"></script>
+	</body>
+</html>
