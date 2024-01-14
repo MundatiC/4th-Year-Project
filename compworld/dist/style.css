@@ -1,0 +1,536 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	margin: 0px;
+	padding: 0px;
+	width: 100vw;
+	height: 100vh;
+	user-select: none;
+	color: #51ab2f;
+	overflow: hidden;
+}
+
+#bg-tex,
+#bg-grd {
+	position: absolute;
+	width: calc(100% + 24px);
+	height: calc(100% + 12px);
+	left: -24px;
+	top: -12px;
+	z-index: -1;
+}
+
+#bg-tex {
+	background-image: url(assets/background.png);
+}
+
+#bg-tex.animated {
+	animation-name: anim-bg-scroll;
+	-moz-animation-name: none; /* Performance tanks on Firefox, so background animation is disabled. */
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+#bg-grd {
+	background-image: linear-gradient(
+		to top,
+		rgba(0, 128, 255, 0.5),
+		rgba(0, 0, 0, 0)
+	);
+}
+
+@keyframes anim-bg-scroll {
+	0% {
+		transform: translate(0px, 0px);
+	}
+	100% {
+		transform: translate(24px, 12px);
+	}
+}
+
+#main-container {
+	position: absolute;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#open-game-info-button,
+#open-settings-button {
+	position: absolute;
+	cursor: pointer;
+	z-index: 1;
+}
+#open-game-info-button {
+	left: 64px;
+}
+
+.popup-container {
+	position: absolute;
+	width: 512px;
+	height: 512px;
+	color: #51ab2f;
+	z-index: 2;
+}
+
+#game-info-container {
+	background-image: url('assets/info-popup.png');
+}
+
+#settings-container {
+	background-image: url('assets/settings.png');
+}
+
+.popup-top {
+	height: 64px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.popup-title {
+	padding-left: 16px;
+	font-size: 1.5em;
+}
+
+.popup-close-button {
+	cursor: pointer;
+}
+
+.popup-bottom {
+	padding: 16px;
+}
+
+.settings-section {
+	padding-bottom: 32px;
+}
+
+.settings-label {
+	font-size: 1.5em;
+	height: 48px;
+}
+
+.settings-options {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.settings-options div {
+	padding: 8px;
+	margin: 0 2px;
+	background-color: #0f2615;
+	border-radius: 8px;
+	line-height: 16px;
+	cursor: pointer;
+}
+
+.settings-options div.selected {
+	background-color: #186323;
+}
+
+#game-info-bottom {
+	text-align: center;
+}
+
+#game-info-bottom a {
+	color: inherit;
+}
+
+.font-pixel {
+	font-family: 'VT323';
+	font-size: 16pt;
+	line-height: 16pt;
+}
+
+.font-pixel > span {
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+
+.font-standard {
+	font-family: 'Open Sans';
+	font-weight: bold;
+	font-size: 12pt;
+	line-height: 16pt;
+}
+
+.font-standard span {
+	position: relative;
+	top: -1px;
+}
+
+.font-dyslexic {
+	font-family: 'Open Dyslexic';
+	font-weight: bold;
+	font-size: 11pt;
+	line-height: 16pt;
+}
+
+.font-dyslexic span {
+	position: relative;
+	top: -3px;
+}
+
+#toggle-bgm-button {
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+}
+
+#toggle-bgm-button:hover {
+	cursor: pointer;
+}
+
+#game-container {
+	position: relative;
+	width: 1024px;
+	height: 768px;
+	/*background-image: url("./assets/cover.png");*/
+}
+
+#portrait-container {
+	position: absolute;
+	left: 16px;
+	top: 80px;
+	width: 288px;
+	height: 480px;
+	z-index: -1;
+}
+
+#scene-container {
+	position: absolute;
+	right: 16px;
+	top: 80px;
+	width: 688px;
+	height: 160px;
+	z-index: -1;
+	background-color: lightpink;
+}
+
+#dialogue-container {
+	position: absolute;
+	left: 16px;
+	bottom: 16px;
+	width: 288px;
+	height: 192px;
+	z-index: 1;
+}
+
+#dialogue {
+	width: 90%;
+	margin: 5%;
+}
+
+#dialogue:before {
+	content: '> ';
+}
+
+#dialogue:after {
+	content: '|';
+	animation-name: anim-blink;
+	animation-timing-function: linear;
+	animation-direction: alternate;
+	animation-iteration-count: infinite;
+	animation-duration: 0.5s;
+}
+
+@keyframes anim-blink {
+	0% {
+		opacity: 0;
+	}
+	49% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+#interactive-container {
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+	width: 688px;
+	height: 496px;
+	/*z-index: -1;*/
+	overflow: hidden;
+}
+
+#gameplay-container {
+	position: absolute;
+	width: 688px;
+	height: 496px;
+	background: #3b4539;
+	/*z-index: -1;*/
+}
+
+#cover {
+	position: absolute;
+	/*display: none;*/
+	pointer-events: none;
+	z-index: 0;
+}
+
+#level-select-container {
+	position: absolute;
+	width: 688px;
+	height: 496px;
+	text-align: center;
+	background-color: #2f362d;
+}
+
+#level-select-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2em;
+	height: 15%;
+}
+
+#level-select-items {
+	position: absolute;
+	display: flex;
+	width: 100%;
+	height: 75%;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.level-select-item {
+	width: 200px;
+	height: 136px;
+	margin: 8px;
+	background-image: url('./assets/panel.png');
+	cursor: pointer;
+}
+
+.level-select-item-title {
+	font-size: 1.25em;
+	padding: 16px;
+}
+
+.level-select-item-topic {
+	padding: 0 16px;
+}
+
+#level-select-open-button {
+	position: absolute;
+	left: -64px;
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+	background-image: url('./assets/back-button.png');
+}
+
+#level-select-open-button:active {
+	background-image: url('./assets/back-button-pressed.png');
+}
+
+.level-select-open-animation {
+	animation: level-select-open 1s ease-in-out forwards;
+}
+
+@keyframes level-select-open {
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+.level-select-close-animation {
+	animation: level-select-close 1s ease-in-out forwards;
+}
+
+@keyframes level-select-close {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.level-select-hide-animation {
+	animation: level-select-hide 1s ease-in-out forwards;
+}
+
+@keyframes level-select-hide {
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(calc(100% + 64px));
+	}
+}
+
+.level-select-reveal-animation {
+	animation: level-select-reveal 1s ease-in-out forwards;
+}
+
+@keyframes level-select-reveal {
+	0% {
+		transform: translateX(calc(100% + 64px));
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* -- LEVEL INFO SECTION -- */
+
+#level-info-container {
+	position: absolute;
+	width: 688px;
+	height: 496px;
+	background-color: #2f362d;
+}
+
+#level-info-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	line-height: 1.4;
+	position: absolute;
+	width: 688px;
+	height: 496px;
+	padding: 32px;
+}
+
+#level-info-open-button {
+	position: absolute;
+	left: 100%;
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+	background-image: url('./assets/question-button.png');
+}
+
+#level-info-open-button:active {
+	background-image: url('./assets/question-button-pressed.png');
+}
+
+#level-info-return-button {
+	background-image: url('./assets/back-button.png');
+	position: absolute;
+	left: calc(100% - 64px);
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+}
+
+#level-info-return-button:active {
+	background-image: url('./assets/back-button-pressed.png');
+}
+
+.level-info-open-animation {
+	animation: level-info-open 1s ease-in-out forwards;
+}
+
+@keyframes level-info-open {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+.level-info-close-animation {
+	animation: level-info-close 1s ease-in-out forwards;
+}
+
+@keyframes level-info-close {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.level-info-hide-animation {
+	animation: level-info-hide 1s ease-in-out forwards;
+}
+
+@keyframes level-info-hide {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(calc(-100% - 64px));
+	}
+}
+
+.level-info-reveal-animation {
+	animation: level-info-reveal 1s ease-in-out forwards;
+}
+
+@keyframes level-info-reveal {
+	0% {
+		transform: translateX(calc(-100% - 64px));
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+/* -- / LEVEL INFO SECTION -- */
+
+/* -- ONSTART POPUP --*/
+
+#onstart-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#onstart-cover {
+	position: absolute;
+	background-color: hsla(0, 0%, 0%, 0.75);
+	width: 100%;
+	height: 100%;
+}
+
+#onstart-popup {
+	position: absolute;
+	background-image: url('./assets/info-popup.png');
+	width: 512px;
+	height: 512px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+	padding: 0 30px;
+}
+
+#onstart-play {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	background-image: url('./assets/widgets/large-button.png');
+	width: 128px;
+	height: 64px;
+	margin-top: 20px;
+}
+
+#onstart-play:active {
+	background-image: url('./assets/widgets/large-button-pressed.png');
+}
+
+/* -- / ONSTART POPUP --*/
