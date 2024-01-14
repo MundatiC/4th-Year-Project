@@ -1,0 +1,50 @@
+#root {
+    height: 100vh;
+}
+
+body {
+    background: url('images/background.jpg') center/cover;
+    cursor: none;
+}
+
+.table-container::-webkit-scrollbar, .feedback-display::-webkit-scrollbar {
+    width: 5px;
+    background-color: #3a5a40;
+}
+
+.table-container::-webkit-scrollbar-thumb, .feedback-display::-webkit-scrollbar-thumb {
+    background-color: #588517;
+}
+/* 
+.hole-image {
+    animation: rise 2s ease-out;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+    } 50% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+ */
+
+
+.cursor {
+    height: 120px;
+    width: 100px;
+    position: fixed;
+    background-image: url('images/hammer.png');
+    background-size: 100% 100%;
+    transform: rotate(30deg);
+    transform-origin: center;
+    pointer-events: none;
+    transition: transform .1s;
+}
+
+.cursor.active {
+    transform: rotate(-5deg);
+}
