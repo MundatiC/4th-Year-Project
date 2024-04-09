@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--
+// v0 by Vercel.
+// https://v0.dev/t/UjUtHJEMrrY
+-->
+    <div class="bg-white">
+      <header class="flex items-center justify-between p-4 border-b">
+        <div class="flex items-center space-x-2">
+          <img src="./assets/logo1.png" alt="Logo" class="h-20 w-20" />
+          <h1 class="text-xl font-bold">Fun Learn</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a class="text-blue-600 hover:underline" href="#">Log In</a
+          ><button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-blue-600 text-white"
+          >
+            Sign Up
+          </button>
+        </div>
+      </header>
+      <main class="px-8 py-4">
+        <h2 class="text-3xl font-bold text-center my-6">Search For Games</h2>
+        <div class="flex flex-col space-y-4">
+          <input
+            class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full max-w-md self-center"
+            placeholder="Search Games"
+          />
+          <div class="flex justify-center space-x-4 my-4">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-blue-600 border-b-2 border-blue-600"
+            >
+              Math</button
+            ><button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            >
+              Grammar</button
+            ><button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            >
+              Music</button
+            ><button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            >
+              Art
+            </button>
+          </div>
+
+          <div id="sort-container">
+            <button
+              id="sort-button"
+              type="button"
+              role="combobox"
+              aria-controls="radix-:r1:"
+              aria-expanded="false"
+              aria-autocomplete="none"
+              dir="ltr"
+              data-state="closed"
+              data-placeholder=""
+              class="flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <span>Sort By</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4 opacity-50"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <a
+              href="./math_kaboom/index.html"
+              class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/math-kaboom.png"
+                  alt="Game thumbnail"
+                  class="w-full rounded-t-lg"
+                  style="aspect-ratio: 16/9; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Math Kaboom</p>
+              </div>
+            </a>
+            <a
+            href="./balloon-pop-maths-master/index.html
+            "
+            class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/balloon.png"
+                  alt="Game thumbnail"
+                  class="w-full"
+                  width="350"
+                  height="200"
+                  style="aspect-ratio: 350 / 200; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Balloon pop</p>
+              </div>
+            </a>
+            <a
+            href="./compworld/dist/index.html"
+            class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/comp_world.png"
+                  alt="Game thumbnail"
+                  class="w-full"
+                  width="350"
+                  height="200"
+                  style="aspect-ratio: 350 / 200; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Comp world</p>
+              </div>
+            </a>
+            <a
+            href="http://localhost:3000"
+            class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/word-war.png"
+                  alt="Game thumbnail"
+                  class="w-full"
+                  width="350"
+                  height="200"
+                  style="aspect-ratio: 350 / 200; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Word war</p>
+              </div>
+            </a>
+            <a
+            href="http://localhost:3001"
+            class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/math-race.png"
+                  alt="Game thumbnail"
+                  class="w-full"
+                  width="350"
+                  height="200"
+                  style="aspect-ratio: 350 / 200; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Math race</p>
+              </div>
+            </a>
+            <a
+            href="./Drag-and-Drop-Spelling-Game-main/index.html"
+            class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              <div class="p-6">
+                <img
+                  src="./assets/Drag-n-Spell.png"
+                  alt="Game thumbnail"
+                  class="w-full"
+                  width="350"
+                  height="200"
+                  style="aspect-ratio: 350 / 200; object-fit: cover"
+                />
+                <p class="mt-2 text-center">Drag-n-Spell</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </main>
+      <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>&copy; 2024 Fun Learn. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
