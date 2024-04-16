@@ -129,35 +129,36 @@
 				var isOb = function(val){
 					return typeof val == 'object'; 
 				}
-				var changeSettings = function(button,notNext){		
+				var changeSettings = function(button, notNext) {     
 					var name = button.id;
 					var html = '';
-					if(notNext){
-						html = getKeyAtVal(o.userSettings[name+'s'],o.userSettings[name]);
+				
+					// Determine the next setting value based on the current setting
+					if (notNext) {
+						html = getKeyAtVal(o.userSettings[name+'s'], o.userSettings[name]);
+					} else {
+						html = getKeyAfterVal(o.userSettings[name + 's'], o.userSettings[name]);
 					}
-					else{
-						html = getKeyAfterVal(o.userSettings[name + 's'],o.userSettings[name]);
-					}
-					o.userSettings[name] = o.userSettings[name+'s'][html];
-					toStorage(name,o.userSettings[name]);
+				
+					// Update the button text to reflect the current setting
+					button.innerHTML = name + ': ' + html;
+				
 					
-					button.innerHTML = name+': '+html;
-					o.settingChanges = o.settingChanges || {};
-					o.settingChanges[name] = o.userSettings[name];
 				}
+				
+				
 
-				var getUserSettings = function(){
-					for(var key in o.userSettings){
-						if(isOb(o.userSettings[key])){
-							continue;
-						}
-						var val = fromStorage(key);
-						if(is(val)){
-							o.userSettings[key] = val;			
-							changeSettings(document.getElementById(key),'notNext');
-						}	
+				var getUserSettings = function() {
+					for (var key in userSettings) {
+					  if (isOb(userSettings[key])) {
+						continue;
+					  }
+					  o.userSettings[key] = userSettings[key];
+					  changeSettings(document.getElementById(key),'notNext');
+					  
 					}
-				}
+					
+				  };
 				getUserSettings();
 
 

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>h1, h2, h3, h4, h5, h6 { font-family: 'Cormorant Garamond', serif; --font-serif: 'Cormorant Garamond'; }
+    </style>
+    <style>body { font-family: 'Libre Franklin', sans-serif; --font-sans: 'Libre Franklin'; }
+    </style>
+    <title>Profile Page</title>
+</head>
+<body class="bg-gray-100">
+<div class="w-full max-w-screen-lg mx-auto mt-8 mb-8">
+  <!-- Game Performance Card -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Game Performance</h3>
+      <p class="text-sm text-muted-foreground">Select a game to view performance data</p>
+    </div>
+    <div class="p-6">
+      <div class="flex flex-col gap-1">
+        <label class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm" for="game">
+          Select Game
+        </label>
+        <button
+          type="button"
+          role="combobox"
+          aria-controls="radix-:r32:"
+          aria-expanded="false"
+          aria-autocomplete="none"
+          dir="ltr"
+          data-state="closed"
+          data-placeholder=""
+          class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full max-w-xs"
+        >
+          <span style="pointer-events: none;">Select a game</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 opacity-50"
+            aria-hidden="true"
+          >
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+      <button id="viewPerformanceBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-4"
+      style="background-color: #bd73cd">
+        View Performance
+      </button>
+    </div>
+  </div>
+
+  <!-- Performance Data Card -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm mt-8" data-v0-t="card">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Performance Data</h3>
+      <p class="text-sm text-muted-foreground">Performance data for the selected game</p>
+    </div>
+    <div class="p-6">
+      <div class="relative w-full overflow-auto">
+        <table id="performanceDataTable" class="w-full caption-bottom text-sm">
+          <thead class="[&amp;_tr]:border-b">
+            <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                Game
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                High Score
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                Time Played
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                Equations Wrong
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                Completed
+              </th>
+            </tr>
+          </thead>
+          <tbody class="[&amp;_tr:last-child]:border-0" id="performanceDataBody">
+            <!-- Performance data will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex items-center p-6">
+      <button id="sendEmailBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-auto"
+      style="background-color: #bd73cd">
+        Send Email
+      </button>
+    </div>
+  </div>
+
+  <!-- Wrong Equations Card -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm mt-8" data-v0-t="card">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Wrong Equations</h3>
+      <p class="text-sm text-muted-foreground">Display incorrect equations for the selected game</p>
+    </div>
+    <div class="p-6" id="wrongEquationsList">
+      <!-- Wrong equations will be dynamically added here -->
+    </div>
+    <div class="flex items-center p-6">
+      <button id="gameSettingsBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-auto"
+      style="background-color: #bd73cd">
+        Game Settings
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for sending email -->
+<div id="emailModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+    <div class="bg-white rounded-lg p-8 relative">
+      <button id="closeEmailModalBtn" class="absolute top-0 right-0 text-gray-500 hover:text-gray-700 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <h2 class="text-2xl font-semibold mb-4">Send Email</h2>
+      <textarea id="emailMessage" class="w-full h-32 border border-gray-300 rounded-lg p-2 mb-4" placeholder="Enter your message"></textarea>
+      <div class="flex items-center mb-4">
+        <input type="checkbox" id="includeDataCheckbox" class="mr-2">
+        <label for="includeDataCheckbox">Include student data</label>
+      </div>
+      <button id="sendEmailConfirmBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Send</button>
+    </div>
+  </div>
+
+<!-- Modal for game settings -->
+<div id="gameSettingsModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+    <div class="bg-white rounded-lg p-8 relative">
+        <button id="closeGameSettingsModalBtn" class="absolute top-0 right-0 text-gray-500 hover:text-gray-700 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+      </button>
+      <h2 class="text-2xl font-semibold mb-4">Game Settings</h2>
+      <div>
+        <label for="mathSelect">Math:</label>
+        <select id="mathSelect" class="border border-gray-300 rounded-lg p-2 mb-4">
+          <option value="+">Addition</option>
+          <option value="-">Subtraction</option>
+          <option value="*">Multiplication</option>
+          <option value="/">Division</option>
+        </select>
+      </div>
+      <div>
+        <label for="numbersInput">Numbers:</label>
+        <input type="number" id="numbersInput" class="border border-gray-300 rounded-lg p-2 mb-4">
+      </div>
+      <div>
+        <label for="speedSelect">Speed:</label>
+        <select id="speedSelect" class="border border-gray-300 rounded-lg p-2 mb-4">
+          <option value="0">Slow</option>
+          <option value="2">Medium</option>
+          <option value="4">Fast</option>
+          <option value="10">Ludicrous</option>
+        </select>
+      </div>
+      <div>
+        <label for="volumeSelect">Volume:</label>
+        <select id="volumeSelect" class="border border-gray-300 rounded-lg p-2 mb-4">
+          <option value="0">Mute</option>
+          <option value=".3">Low</option>
+          <option value=".6">Medium</option>
+          <option value="1">High</option>
+        </select>
+      </div>
+      <button id="saveGameSettingsBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Save</button>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+     // Function to show modal
+     function showModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
+    
+    // Function to hide modal
+    function hideModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+    
+    // Event listener for sending email button
+    document.getElementById('sendEmailBtn').addEventListener('click', function() {
+        showModal('emailModal');
+    });
+    
+    // Event listener for closing email modal
+    document.getElementById('closeEmailModalBtn').addEventListener('click', function() {
+        hideModal('emailModal');
+    });
+    
+    // Event listener for confirming sending email
+    document.getElementById('sendEmailConfirmBtn').addEventListener('click', function() {
+        const message = document.getElementById('emailMessage').value;
+        const includeData = document.getElementById('includeDataCheckbox').checked;
+        console.log("Message:", message);
+        console.log("Include data:", includeData);
+        // You can add logic here to send the email
+        // For now, just close the modal
+        hideModal('emailModal');
+    });
+    
+    // Event listener for game settings button
+    document.getElementById('gameSettingsBtn').addEventListener('click', function() {
+        showModal('gameSettingsModal');
+    });
+    
+    // Event listener for closing game settings modal
+    document.getElementById('closeGameSettingsModalBtn').addEventListener('click', function() {
+        hideModal('gameSettingsModal');
+    });
+    
+    // Event listener for saving game settings
+    document.getElementById('saveGameSettingsBtn').addEventListener('click', async function() {
+
+    // Retrieve selected values from the UI
+    const math = document.getElementById('mathSelect').value;
+    console.log(math)
+    const numbers = parseInt(document.getElementById('numbersInput').value);
+    console.log(numbers)
+    const speed = parseInt(document.getElementById('speedSelect').value);
+    console.log(speed)
+    const volume = parseFloat(document.getElementById('volumeSelect').value);
+    console.log(volume)
+
+
+    const userID = getQueryParameter('userID');
+
+    // Construct the data object required for the POST request
+    const data = {
+        Math: math,
+        Numbers: numbers,
+        Speed: speed,
+        Volume: volume,
+        UserID: userID // Replace with the actual user ID
+    };
+    console.log(data);
+
+    
+
+    try {
+        const response = await axios.post('http://localhost:5050/changeGameSettings', data);
+        console.log('Settings changed successfully:', response.data);
+        // You can add any additional logic here after successfully changing the game settings
+    } catch (error) {
+        console.error('Error changing game settings:', error);
+    }
+
+    // Close the modal after processing the request
+    hideModal('gameSettingsModal');
+});
+
+    
+    // Event listener for viewing performance button
+    document.getElementById('viewPerformanceBtn').addEventListener('click', function() {
+        // Add logic to view performance data here
+    });
+  // Function to fetch game data
+  async function fetchGameData(userID) {
+    try {
+        const response = await axios.post('http://localhost:5050/gameData', { userID: userID });
+        console.log(response.data);
+        const userData = response.data; // Replace with the current user's ID
+        if (userData && userData.length > 0) {
+            // Populate performance data table
+            const performanceData = userData.map(user => `
+                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.GameName}</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.HighScore}</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.TimePlayed}</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.EquationsWrong}</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.Equations ? 'Yes' : 'No'}</td>
+                </tr>
+            `).join('');
+            document.getElementById('performanceDataBody').innerHTML = performanceData;
+
+            // Populate wrong equations list
+            userData.forEach(user => {
+                if (user.Equations) {
+                    const wrongEquationsList = user.Equations.split(',').map(eq => `<li>${eq.trim()}</li>`).join('');
+                    document.getElementById('wrongEquationsList').innerHTML += `
+                        <ul class="list-disc list-inside">${wrongEquationsList}</ul>
+                    `;
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching game data:', error);
+    }
+  }
+
+  // Event listener for viewing performance button
+  document.getElementById('viewPerformanceBtn').addEventListener('click', fetchGameData);
+
+  // Function to extract query parameters from the URL
+  const getQueryParameter = (name) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+  };
+
+  window.onload = () => {
+    const userID = getQueryParameter('userID');
+    if (userID) {
+      fetchGameData(userID);
+    } else {
+      console.error('User ID not found in query parameters');
+    }
+  };
+</script>
+</body>
+</html>

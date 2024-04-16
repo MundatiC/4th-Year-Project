@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Yeseva One", serif;
+            --font-serif: "Yeseva One";
+        }
+    </style>
+    <title>Login - Fun Learn</title>
+</head>
+<body class="flex justify-center items-center h-screen">
+<div class="container px-4 flex flex-col items-center space-y-6">
+    <div class="text-center space-y-2">
+        <img src="./assets/logo1.png" class="h-32 w-32 mx-auto" alt="Logo"/>
+        <h1 class="text-4xl font-bold">Welcome Back!</h1>
+        <p class="text-gray-500 dark:text-gray-400">
+            Log in to continue learning
+        </p>
+    </div>
+    <div class="w-full max-w-sm space-y-4">
+        <form id="loginForm" onsubmit="submitForm(event)">
+            <div class="space-y-2">
+                <label class="text-sm font-medium leading-none" for="username">Username</label>
+                <input type="text" name="username" id="username" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter username" required>
+            </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium leading-none" for="password">Password</label>
+                <input type="password" name="password" id="password" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-3 w-full" style="background-color: #bd73cd">
+                Log In
+            </button>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    async function submitForm(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('loginForm');
+        const formData = new FormData(form);
+        const data = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5050/login', data);
+
+            // Handle success
+            window.location.href = './index.html'; // Redirect to Dashboard or any other page
+        } catch (error) {
+            // Handle error
+            console.error('Error logging in:', error);
+        }
+    }
+</script>
+</body>
+</html>

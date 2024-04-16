@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search for a Student</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Archivo", sans-serif;
+        --font-sans: "Archivo";
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        --font-sans: "DM Sans";
+      }
+    </style>
+  </head>
+
+  <body class="bg-white text-black p-10 flex justify-center">
+    <div class="w-full max-w-screen-sm px-4 py-10 space-y-4">
+      <div class="space-y-2">
+        <h1 class="text-xl font-semibold">Search for a Student</h1>
+        <p class="text-sm text-gray-500">
+          Enter the username of the student you want to find
+        </p>
+      </div>
+      <div class="space-y-2">
+        <div class="flex space-x-2">
+          <input
+            type="text"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
+            id="username"
+            placeholder="Enter username"
+          />
+          <button
+            id="searchButton"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      <div id="searchResults" class="grid gap-4">
+        <!-- Search results will be displayed here -->
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const searchButton = document.getElementById("searchButton");
+      const searchResultsContainer = document.getElementById("searchResults");
+      const usernameInput = document.getElementById("username");
+
+      const searchUsers = async (username) => {
+        try {
+          const response = await axios.post("http://localhost:5050/search", {
+            username,
+          });
+          const users = response.data;
+
+          // Clear previous search results
+          searchResultsContainer.innerHTML = "";
+
+          // Display search results
+          users.forEach((user) => {
+            const userCard = `
+              <div class="flex items-center bg-gray-100 p-4 rounded-lg">
+                <span class="relative flex-shrink-0 overflow-hidden rounded-full w-12 h-12 bg-blue-500 text-white flex items-center justify-center text-2xl font-bold">
+                  ${user.Username.charAt(0).toUpperCase()}
+                </span>
+                <div class="flex flex-col ml-4">
+                  <div class="text-xl font-semibold">${user.Username}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">${
+                    user.FullName
+                  }</div>
+                </div>
+                <button class="ml-auto text-sm text-blue-500 data-user-id="${user.UserID}" onclick="navigateToProfile('${user.UserID}')">View</button>
+              </div>
+            `;
+            searchResultsContainer.innerHTML += userCard;
+          });
+        } catch (error) {
+          console.error("Error searching for students:", error);
+        }
+      };
+
+      usernameInput.addEventListener("input", (event) => {
+        const username = event.target.value.trim();
+        if (username) {
+          searchUsers(username);
+        } else {
+          // Clear search results if username is empty
+          searchResultsContainer.innerHTML = "";
+        }
+      });
+      // Function to navigate to the Profile.html page with the user ID as a query parameter
+      const navigateToProfile = (userID) => {
+        window.location.href = `./Profile.html?userID=${userID}`;
+      };
+    </script>
+  </body>
+</html>
