@@ -1209,7 +1209,7 @@ var moveBackgrounds = function(o){
 				else{
 					if(o.correctCount > o.prevCorrect){
 
-						o.game_backgrounds[i][b].dis.left = o.game_backgrounds[i][b].dis.originalLeft * (1 + round(o.correctCount/3,2));
+						o.game_backgrounds[i][b].dis.left = o.game_backgrounds[i][b].dis.originalLeft * (1 + round(o.correctCount/4,2));
 
 					}
 									//}
