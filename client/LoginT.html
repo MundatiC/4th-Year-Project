@@ -18,7 +18,7 @@
         <img src="./assets/logo1.png" class="h-32 w-32 mx-auto" alt="Logo"/>
         <h1 class="text-4xl font-bold">Welcome Back!</h1>
         <p class="text-gray-500 dark:text-gray-400">
-            Log in to continue learning
+            Log in to continue assessing your students
         </p>
     </div>
     <div class="w-full max-w-sm space-y-4">
@@ -35,6 +35,7 @@
                 Log In
             </button>
         </form>
+        <p class="text-sm text-gray-500 mt-2">Don't have an account? <a href="./SignUpT.html" class="text-primary-foreground">Sign Up</a></p>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -50,13 +51,10 @@
         };
 
         try {
-            const response = await axios.post('http://localhost:5050/loginS', data);
-            console.log(response.data.user); // User data (token, etc.
-            // Handle success
-            const userData = response.data.user;
+            const response = await axios.post('http://localhost:5050/loginT', data);
 
-            localStorage.setItem('userData', JSON.stringify(userData));
-            window.location.href = './index.html'; // Redirect to Dashboard or any other page
+            // Handle success
+            window.location.href = './Search.html'; // Redirect to Dashboard or any other page
         } catch (error) {
             // Handle error
             console.error('Error logging in:', error);

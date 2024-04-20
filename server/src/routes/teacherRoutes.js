@@ -8,12 +8,12 @@ const {changeGameSettings, getGameSettings, searchStudents, getUserGamesByUserID
 
 teacherRouter.post("/changeGameSettings", changeGameSettings);
 
-teacherRouter.get("/getGameSettings", teacherTokenValidation, getGameSettings);
+teacherRouter.post("/getGameSettings", getGameSettings);
 
 teacherRouter.post("/search", searchStudents);
 
 teacherRouter.post("/gameData", getUserGamesByUserID)
 
-teacherRouter.post("/sendMail",teacherTokenValidation, sendMailM);
+teacherRouter.post("/sendMail", sendMailM);
 
 module.exports = teacherRouter;

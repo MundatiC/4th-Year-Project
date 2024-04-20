@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const config = require("./src/config/config");
 const sql = require("mssql");
-
+const path = require('path');
 const authRouter = require("./src/routes/authRoutes");
 const teacherRouter = require("./src/routes/teacherRoutes");
 
@@ -14,6 +14,10 @@ const teacherRouter = require("./src/routes/teacherRoutes");
 
 
 const app = express()
+const staticFilesDirectory = path.join(__dirname, './src/public');
+
+// Serve static files from the specified directory
+app.use(express.static(staticFilesDirectory));
 
 app.use(express.json())
 app.use(cors({

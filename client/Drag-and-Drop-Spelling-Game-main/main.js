@@ -736,8 +736,14 @@ function checkWinner() {
           li.innerText = currentWord/// what's the word?
           document.querySelector('#word-list').appendChild(li)
         }
-  }
+  }else if(!firstCorrectLetter.classList.contains('correct-bg') && 
+  !secondCorrectLetter.classList.contains('correct-bg') && 
+  !thirdCorrectLetter.classList.contains('correct-bg')) {
+
+    
+    alert('That is not quite right. Try again!')
 }
+} 
 
 
 

@@ -122,11 +122,11 @@ async function getUserGamesByUserID(req, res) {
 }
 
 async function sendMailM(req,res){
-    let { teacherMessage, email } = req.body;
-    console.log(req.user)
+    let { teacherMessage, email, includeData } = req.body;
+    console.log(includeData)
 
     try {
-        let html = await createMarkup("./src/views/email.ejs", {teacherMessage: teacherMessage});
+        let html = await createMarkup("./src/views/email.ejs", {teacherMessage: teacherMessage, includeData: includeData});
 
         const message = {
             to: email,

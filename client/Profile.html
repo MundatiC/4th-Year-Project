@@ -186,6 +186,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+  let userData;
      // Function to show modal
      function showModal(modalId) {
       document.getElementById(modalId).classList.remove('hidden');
@@ -208,14 +209,36 @@
     
     // Event listener for confirming sending email
     document.getElementById('sendEmailConfirmBtn').addEventListener('click', function() {
-        const message = document.getElementById('emailMessage').value;
-        const includeData = document.getElementById('includeDataCheckbox').checked;
-        console.log("Message:", message);
-        console.log("Include data:", includeData);
-        // You can add logic here to send the email
-        // For now, just close the modal
-        hideModal('emailModal');
-    });
+    const message = document.getElementById('emailMessage').value;
+    const wrongEquationsList = userData[0].Equations.split(',').map(eq => eq.trim()).join(',');
+
+    const checkbox = document.getElementById('includeDataCheckbox');
+    const includeData = checkbox.checked ? wrongEquationsList : [];
+    const studentEmail = 'mundati.caleb20@students.dkut.ac.ke';  // Assuming you have the student's email beforehand
+
+    // Log for debugging
+    console.log("Message:", message);
+    console.log("Include data:", includeData);
+
+    // Prepare the data to be sent
+    const emailData = {
+        teacherMessage: message,
+        email: studentEmail,
+        includeData: includeData  // Assuming you want to send whether to include data or not
+    };
+
+    // Send a POST request using axios
+    axios.post('http://localhost:5050/sendMail', emailData)
+        .then(function (response) {
+            console.log('Email sent successfully:', response.data);
+            hideModal('emailModal');  // Close the modal upon successful sending
+        })
+        .catch(function (error) {
+            console.error('Error sending email:', error);
+            alert('Failed to send email. Please try again.');  // Notify the user of the failure
+        });
+});
+
     
     // Event listener for game settings button
     document.getElementById('gameSettingsBtn').addEventListener('click', function() {
@@ -277,7 +300,7 @@
     try {
         const response = await axios.post('http://localhost:5050/gameData', { userID: userID });
         console.log(response.data);
-        const userData = response.data; // Replace with the current user's ID
+         userData = response.data; // Replace with the current user's ID
         if (userData && userData.length > 0) {
             // Populate performance data table
             const performanceData = userData.map(user => `

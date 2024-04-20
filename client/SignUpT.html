@@ -10,31 +10,46 @@
             --font-serif: "Yeseva One";
         }
     </style>
-    <title>Login - Fun Learn</title>
+    <title>Document</title>
 </head>
 <body class="flex justify-center items-center h-screen">
 <div class="container px-4 flex flex-col items-center space-y-6">
     <div class="text-center space-y-2">
         <img src="./assets/logo1.png" class="h-32 w-32 mx-auto" alt="Logo"/>
-        <h1 class="text-4xl font-bold">Welcome Back!</h1>
+        <h1 class="text-4xl font-bold">Sign up for Fun Learn</h1>
         <p class="text-gray-500 dark:text-gray-400">
-            Log in to continue learning
+            Fun educational games for kids
         </p>
     </div>
     <div class="w-full max-w-sm space-y-4">
-        <form id="loginForm" onsubmit="submitForm(event)">
+        <form id="signupForm" onsubmit="submitForm(event)">
             <div class="space-y-2">
                 <label class="text-sm font-medium leading-none" for="username">Username</label>
                 <input type="text" name="username" id="username" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter username" required>
             </div>
             <div class="space-y-2">
+                <label class="text-sm font-medium leading-none" for="fullName">Full Name</label>
+                <input type="text" name="fullName" id="fullName" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter full name" required>
+            </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium leading-none" for="email">Email</label>
+                <input type="email" name="email" id="email" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter email" required>
+            </div>
+            <div class="space-y-2">
                 <label class="text-sm font-medium leading-none" for="password">Password</label>
                 <input type="password" name="password" id="password" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter password" required>
             </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium leading-none" for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Confirm password" required>
+            </div>
             <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-3 w-full" style="background-color: #bd73cd">
-                Log In
-            </button>
+              Sign Up
+          </button>
+          
         </form>
+        <p class="text-sm text-gray-500 mt-2">Already have an account? <a href="./Login.html" class="text-primary-foreground">Log in</a></p>
+    </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -42,24 +57,25 @@
     async function submitForm(event) {
         event.preventDefault();
 
-        const form = document.getElementById('loginForm');
+        const form = document.getElementById('signupForm');
         const formData = new FormData(form);
         const data = {
             username: formData.get('username'),
-            password: formData.get('password')
+            email: formData.get('email'),
+            userType: 'Student', // Assuming it's always 'Student'
+            password: formData.get('password'),
+            c_password: formData.get('confirmPassword'),
+            fullName: formData.get('fullName')
         };
 
         try {
-            const response = await axios.post('http://localhost:5050/loginS', data);
-            console.log(response.data.user); // User data (token, etc.
-            // Handle success
-            const userData = response.data.user;
+            const response = await axios.post('http://localhost:5050/registerTeacher', data);
 
-            localStorage.setItem('userData', JSON.stringify(userData));
-            window.location.href = './index.html'; // Redirect to Dashboard or any other page
+            // Handle success
+            window.location.href = './Login.html';
         } catch (error) {
             // Handle error
-            console.error('Error logging in:', error);
+            console.error('Error registering user:', error);
         }
     }
 </script>

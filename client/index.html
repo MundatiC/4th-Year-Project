@@ -17,9 +17,26 @@
           <h1 class="text-xl font-bold">Fun Learn</h1>
         </div>
         <div class="flex items-center space-x-4">
-          <a class="text-blue-600 hover:underline" href="./Login.html"
-            >Log In</a
-          >
+           <!-- Dropdown for login types -->
+           <div class="relative">
+            <button
+              class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              id="loginDropdown"
+              aria-haspopup="true"
+            >
+              Log In
+            </button>
+            <div
+              class="absolute right-0 w-48 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+              aria-labelledby="loginDropdown"
+              hidden
+            >
+              <div class="py-1">
+                <a href="./Login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Student</a>
+                <a href="./LoginT.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Teacher</a>
+              </div>
+            </div>
+          </div>
           <a href="./SignUp.html" class="">
             <button
               class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-blue-600 text-white"
@@ -192,4 +209,11 @@
       </footer>
     </div>
   </body>
+  <script>
+    // Simple toggle script for dropdown
+    document.getElementById('loginDropdown').addEventListener('click', function() {
+      const dropdown = this.nextElementSibling;
+      dropdown.hidden = !dropdown.hidden;
+    });
+  </script>
 </html>
