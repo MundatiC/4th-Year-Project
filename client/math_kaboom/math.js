@@ -41,6 +41,7 @@ o.userSettings = {
 	}
 }
 o.nextScore = 0;
+o.lives = 3;
 var getNextScore = function(o){
 	return (jsMathOperators.indexOf(o.userSettings.Math)+2) * (o.userSettings.Speed) * (o.userSettings.Numbers);
 }
@@ -583,7 +584,13 @@ var generateInteractions = function(o){
 		
 		}
 		else{
-			element = o.explode(element);
+			o.lives--;
+			if(o.lives < 1){
+				element = o.explode(element);
+			} else{
+				element.colliding = o.explode(element.colliding);
+			}
+			
 		}
 
 		o.game_border.shakeFor = o.game_border.shakeTill;
