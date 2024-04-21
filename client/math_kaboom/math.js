@@ -42,6 +42,7 @@ o.userSettings = {
 }
 o.nextScore = 0;
 o.lives = 3;
+o.incorrectEquations = [];
 var getNextScore = function(o){
 	return (jsMathOperators.indexOf(o.userSettings.Math)+2) * (o.userSettings.Speed) * (o.userSettings.Numbers);
 }
@@ -276,6 +277,20 @@ var assignProperties = function(element,props){
 	element = loadSound(element);
 	return element;
 }
+
+// Select all heart elements
+var heartElements = document.getElementsByClassName('heart');
+
+// Function to update heart visibility based on the number of lives
+function updateHearts(lives) {
+  for (var i = 0; i < heartElements.length; i++) {
+    if (i < lives) {
+      heartElements[i].style.visibility = 'visible'; // Show the heart
+    } else {
+      heartElements[i].style.visibility = 'hidden'; // Hide the heart
+    }
+  }
+}
 var createElement = function(type,props){
 	var element = document.createElement(type);
 	element = assignProperties(element,props);
@@ -347,7 +362,7 @@ var generateGameScreen = function(o){
 				top: 20,
 				left: 20,
 				padding: 0,
-				width: 1200,
+				width: 1300,
 				height: 600,
 				overflow: hidden,
 				zIndex: 10
@@ -391,6 +406,7 @@ var generateGameScreen = function(o){
 	
 }
 o = generateGameScreen(o);
+
 var generateBackground = function(o){
 	o.game_backgrounds = [];
 	o.background_masks = [];
@@ -501,6 +517,29 @@ o.game_screen = updateDims(o.game_screen);
 var abs = function(num){
 	return Math.abs(num);
 }
+
+function displayIncorrectEquations(o) {
+	
+  
+	var equationsContainer = document.createElement('div');
+equationsContainer.className = 'equations-container';
+
+var equationsHeading = document.createElement('h3');
+equationsHeading.textContent = 'Incorrect Equations:';
+equationsContainer.appendChild(equationsHeading);
+
+var equationsList = document.createElement('ul');
+equationsList.className = 'equations-list';
+for (var i = 0; i < o.incorrectEquations.length; i++) {
+    var equationItem = document.createElement('li');
+    equationItem.textContent = o.incorrectEquations[i];
+    equationsList.appendChild(equationItem);
+}
+equationsContainer.appendChild(equationsList);
+
+return equationsContainer;
+  }
+
 var addDis = function(element){
 	element.dis.tempLeft = element.dis.tempLeft || 0;
 	element.dis.tempTop = element.dis.tempTop || 0;
@@ -543,52 +582,54 @@ var generateInteractions = function(o){
 	o.test = function(element){
 		return element;
 	}
-	o.explode = function(element){
+	o.explode = function(element, isCorrectAnswer) {
 		var i = 0;
 		var explosion = o.explosions[0];
-		while(o.explosions[i]){
-			if(!o.explosions[i].till){
+		while(o.explosions[i]) {
+			if(!o.explosions[i].till) {
 				explosion = o.explosions[i];
 				explosion.till = o.explosions[i].originalTill;
-				if(element.className == 'weps'){
+				if(element.className == 'weps') {
 					o.explosions[i].isWep = true;
 				}
-			
+	
+				// Set the background color based on the isCorrectAnswer parameter
+				explosion.style.backgroundColor = isCorrectAnswer ? 'green' : 'red';
+	
 				break;
 			}
 			i++;
 		}
-		explosion = center(explosion,element);
-
-		explosion.dis.top = round(element.dis.top/2,1);
-		explosion.dis.left = round(element.dis.left/2,1);
+		explosion = center(explosion, element);
+		explosion.dis.top = round(element.dis.top / 2, 1);
+		explosion.dis.left = round(element.dis.left / 2, 1);
 		explosion.playSound();
-		
-
 		element.destroyed = true;
-
 		element.style.left = '-3000px';
 		element.left = -3000;
-
-		
-
-		
-
 		return element;
 	}
 	o.destroy = function(element){
 		element = recoil(element);
 		if(element.answer == element.colliding.choice){
-			element.colliding = o.explode(element.colliding);	
+			element.colliding = o.explode(element.colliding, true);	
 			o.answered = true;			
 		
 		}
 		else{
 			o.lives--;
+			updateHearts(o.lives); 
+
+			 // Store the incorrect equation
+			 var equation = o.weps[0].innerHTML;
+			 o.incorrectEquations.push(equation);
+			 console.log('Incorrect equations:', o.incorrectEquations);
+
 			if(o.lives < 1){
-				element = o.explode(element);
+				element = o.explode(element, false);
+
 			} else{
-				element.colliding = o.explode(element.colliding);
+				element.colliding = o.explode(element.colliding, false);
 			}
 			
 		}
@@ -1008,7 +1049,7 @@ var checkIfAnswered = function(o){
 		o.answered = false;		
 		for(var i = 0; i < o.enemies.length; i++){
 
-			o.enemies[i] = o.explode(o.enemies[i]);
+			o.enemies[i] = o.explode(o.enemies[i], true);
 		}
 	}
 	return o;
@@ -1092,6 +1133,12 @@ var addWinScreen = function(o){
 		
 	});
 
+	// Append the incorrect equations container
+	var incorrectEquationsContainer = displayIncorrectEquations(o);
+	if (incorrectEquationsContainer) {
+	  o.win_screen.appendChild(incorrectEquationsContainer);
+	}
+
 	append(o.game_screen,o.win_screen);
 
 	return o;
@@ -1120,20 +1167,27 @@ var addGameOverScreen = function(o){
 			left: 20,
 			padding: 0,
 			width: 1200,
-			height: 600,
-			overflow: hidden,
+			height: 700,
+			overflow: scroll,
 			zIndex: 11,
-			fontSize: '200px',
+			fontSize: '50px',
 			display: 'none'
 		}
 		
 	});
 
+	// Append the incorrect equations container
+	var incorrectEquationsContainer = displayIncorrectEquations(o);
+	if (incorrectEquationsContainer) {
+	  o.gameOver_screen.appendChild(incorrectEquationsContainer);
+	}
+	console.log(o.incorrectEquations)
+
 	append(o.game_screen,o.gameOver_screen);
 
 	return o;
 }
-o = addGameOverScreen(o);
+
 o.nextScore = getNextScore(o);
 var checkForSettingChanges = function(o){
 	if(o.settingChanges){
@@ -1301,6 +1355,7 @@ var update = function(){
 		for(var i = 0; i < o.enemies.length; i++){
 			o.enemies[i].style.display = 'none';
 		}
+		o = addGameOverScreen(o);
 		o.game_song.stop();
 		o.gameOver_song.playSound();
 		o.gameOver_screen.style.display = '';
