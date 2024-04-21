@@ -1116,7 +1116,7 @@ var addWinScreen = function(o){
 				location.reload();
 			}
 		},*/
-		innerHTML:'YOU WIN!!! <div id="playAgain" onclick="location.reload()" ontouchstart="location.reload()">Play Again!</div><div id="score">SCORE: '+commafy(o.score)+'</div>',
+		innerHTML:'YOU WIN!!! <div id="playAgain" onclick="location.reload()" ontouchstart="location.reload()">Play Again!</div>',
 		style:{
 			position: absolute,
 
@@ -1127,7 +1127,7 @@ var addWinScreen = function(o){
 			height: 600,
 			overflow: hidden,
 			zIndex: 11,
-			fontSize: '200px',
+			fontSize: '50px',
 			display: 'none'
 		}
 		
