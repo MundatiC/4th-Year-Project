@@ -828,19 +828,16 @@ interact('.dropzone').dropzone({
       event.relatedTarget.classList.remove('can-drop')
     },
     ondrop: function (event) {
-      if(event.relatedTarget.textContent.trim() == event.target.textContent.trim()) {
+      if (event.relatedTarget.textContent.trim() == event.target.textContent.trim()) {
         event.target.classList.remove('incorrect-bg');
         event.target.classList.add('correct-bg');
-
       } else {
         event.target.classList.remove('correct-bg');
         event.target.classList.add('incorrect-bg');
-      }  
-      
-      
+        showIncorrectArrangement(); // Call the function to display something for incorrect arrangement
+      }
+    
       checkWinner();
-
-      
     },
     ondropdeactivate: function (event) {
       // remove active dropzone feedback
@@ -848,6 +845,12 @@ interact('.dropzone').dropzone({
       event.target.classList.remove('drop-target')
     }
   })
+
+  function showIncorrectArrangement() {
+  // Code to display something for incorrect arrangement
+  // For example, you can display an alert or create an animation
+  alert('Oops! The letters are arranged incorrectly. Try again!');
+}
   
   function dragged(e) {
     e.target.style.transform = 'translate(0px, 0px)';

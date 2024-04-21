@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
         games[gameId].push(socket.id)
     })
 
+
     socket.on("current-user-answered", ({ answered, gameId }) => {
         games[gameId].map(racerId => {
             if(racerId == socket.id) return
@@ -36,6 +37,8 @@ io.on('connection', (socket) => {
             })
         })
     })
+
+   
     
     socket.on('disconnect', () => {
         io.emit("racer-left", socket.id)

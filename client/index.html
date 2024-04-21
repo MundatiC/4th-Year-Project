@@ -7,6 +7,15 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <style>
+      .filter-btn.active,
+      .filter-btn.active:hover,
+      .filter-btn.active:focus {
+        color: rgb(0, 72, 255);
+        border-color: rgb(0, 72, 255);
+      }
+    </style>
+
     <title>Document</title>
   </head>
   <body>
@@ -17,8 +26,8 @@
           <h1 class="text-xl font-bold">Fun Learn</h1>
         </div>
         <div class="flex items-center space-x-4">
-           <!-- Dropdown for login types -->
-           <div class="relative">
+          <!-- Dropdown for login types -->
+          <div class="relative">
             <button
               class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               id="loginDropdown"
@@ -32,8 +41,16 @@
               hidden
             >
               <div class="py-1">
-                <a href="./Login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Student</a>
-                <a href="./LoginT.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Teacher</a>
+                <a
+                  href="./Login.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >Student</a
+                >
+                <a
+                  href="./LoginT.html"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >Teacher</a
+                >
               </div>
             </div>
           </div>
@@ -52,63 +69,51 @@
           <input
             class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full max-w-md self-center"
             placeholder="Search Games"
+            id="searchInput"
           />
           <div class="flex justify-center space-x-4 my-4">
             <button
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-blue-600 border-b-2 border-blue-600"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 border-b-2 filter-btn filter-btn-all active"
+              data-filter-category="all"
             >
-              Math</button
-            ><button
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-            >
-              Grammar</button
-            ><button
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-            >
-              Music</button
-            ><button
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-            >
-              Art
+              All
             </button>
-          </div>
-
-          <div id="sort-container">
             <button
-              id="sort-button"
-              type="button"
-              role="combobox"
-              aria-controls="radix-:r1:"
-              aria-expanded="false"
-              aria-autocomplete="none"
-              dir="ltr"
-              data-state="closed"
-              data-placeholder=""
-              class="flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 border-b-2 filter-btn filter-btn-math"
+              data-filter-category="math"
             >
-              <span>Sort By</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4 opacity-50"
-                aria-hidden="true"
-              >
-                <path d="m6 9 6 6 6-6"></path>
-              </svg>
+              Math
+            </button>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 border-b-2 filter-btn filter-btn-grammar"
+              data-filter-category="grammar"
+            >
+              Grammar
             </button>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div id="sort-container" class="relative">
+            <select
+              id="sort-select"
+              class="flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              <option value="all">Filter By</option>
+              <option value="allOption">All</option>
+              <option value="singlePlayerOption">Single Player</option>
+              <option value="multiPlayerOption">Multiplayer</option>
+            </select>
+          </div>
+
+          <div
+            id="game-container"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+          >
             <a
               href="./math_kaboom/index.html"
               class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+              data-game-type="singleplayer"
+              data-game-name="math kaboom"
+              data-game-category="math"
             >
               <div class="p-6">
                 <img
@@ -121,41 +126,11 @@
               </div>
             </a>
             <a
-              href="./balloon-pop-maths-master/index.html
-            "
-              class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-            >
-              <div class="p-6">
-                <img
-                  src="./assets/balloon.png"
-                  alt="Game thumbnail"
-                  class="w-full"
-                  width="350"
-                  height="200"
-                  style="aspect-ratio: 350 / 200; object-fit: cover"
-                />
-                <p class="mt-2 text-center">Balloon pop</p>
-              </div>
-            </a>
-            <a
-              href="./compworld/dist/index.html"
-              class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-            >
-              <div class="p-6">
-                <img
-                  src="./assets/comp_world.png"
-                  alt="Game thumbnail"
-                  class="w-full"
-                  width="350"
-                  height="200"
-                  style="aspect-ratio: 350 / 200; object-fit: cover"
-                />
-                <p class="mt-2 text-center">Comp world</p>
-              </div>
-            </a>
-            <a
               href="http://localhost:3000"
               class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+              data-game-type="multiplayer"
+              data-game-name="word war"
+              data-game-category="grammar"
             >
               <div class="p-6">
                 <img
@@ -172,6 +147,9 @@
             <a
               href="http://localhost:3001"
               class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+              data-game-type="multiplayer"
+              data-game-name="math race"
+              data-game-category="math"
             >
               <div class="p-6">
                 <img
@@ -188,6 +166,9 @@
             <a
               href="./Drag-and-Drop-Spelling-Game-main/index.html"
               class="rounded-lg border bg-card text-card-foreground shadow-sm hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+              data-game-type="singleplayer"
+              data-game-name="drag-n-spell"
+              data-game-category="grammar"
             >
               <div class="p-6">
                 <img
@@ -205,15 +186,84 @@
         </div>
       </main>
       <footer class="bg-gray-800 text-white py-4 text-center">
-        <p>&copy; 2024 Fun Learn. All rights reserved.</p>
+        <p>© 2024 Fun Learn. All rights reserved.</p>
       </footer>
     </div>
   </body>
   <script>
-    // Simple toggle script for dropdown
-    document.getElementById('loginDropdown').addEventListener('click', function() {
-      const dropdown = this.nextElementSibling;
-      dropdown.hidden = !dropdown.hidden;
+    // Simple toggle script for dropdown document .getElementById("loginDropdown") .addEventListener("click", function () { const dropdown = this.nextElementSibling; dropdown.hidden = !dropdown.hidden; });
+    // Filter games based on search input, filter options, and category buttons
+    const searchInput = document.getElementById("searchInput");
+    const gameContainer = document.getElementById("game-container");
+    const gameLinks = gameContainer.querySelectorAll("a");
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const sortSelect = document.getElementById("sort-select");
+    const allOption = document.getElementById("allOption");
+    const singlePlayerOption = document.getElementById("singlePlayerOption");
+    const multiPlayerOption = document.getElementById("multiPlayerOption");
+
+    sortSelect.addEventListener("change", function () {
+      const selectedValue = sortSelect.value;
+      switch (selectedValue) {
+        case "allOption":
+          filterGames();
+          break;
+        case "singlePlayerOption":
+          filterGames("singleplayer");
+          break;
+        case "multiPlayerOption":
+          filterGames("multiplayer");
+          break;
+        default:
+          // Handle default case if needed
+          break;
+      }
     });
+
+    searchInput.addEventListener("input", function () {
+      filterGames();
+    });
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        // Remove active class from all buttons
+        filterBtns.forEach((btn) => btn.classList.remove("active"));
+
+        // Add active class to the clicked button
+        this.classList.add("active");
+
+        const filterCategory = this.dataset.filterCategory;
+        filterGames(null, filterCategory);
+      });
+    });
+
+    function filterGames(filterType = null, filterCategory = null) {
+      const searchTerm = searchInput.value.toLowerCase();
+      Array.from(gameLinks).forEach((link) => {
+        const gameName = link.dataset.gameName.toLowerCase();
+        const gameType = link.dataset.gameType;
+        const gameCategory = link.dataset.gameCategory;
+        const matchesSearchTerm = gameName.includes(searchTerm);
+        const matchesFilterType = filterType ? gameType === filterType : true;
+        const matchesFilterCategory = filterCategory
+          ? gameCategory === filterCategory
+          : true;
+        const matchesAll = filterCategory === "all"; // Check if "All" button is active
+
+        // Show the link if it matches all conditions or if "All" button is active
+        link.style.display =
+          (matchesSearchTerm && matchesFilterType && matchesFilterCategory) ||
+          matchesAll
+            ? "block"
+            : "none";
+      });
+    }
+
+    document
+      .getElementById("loginDropdown")
+      .addEventListener("click", function () {
+        const dropdown = this.nextElementSibling;
+        dropdown.hidden = !dropdown.hidden;
+      });
   </script>
 </html>

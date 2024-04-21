@@ -32,14 +32,14 @@ const Footer = memo(function ({ signout }) {
       <div className="footer flex">
         <span>
           <a
-            href="https://github.com/mochatek"
+            href="https://github.com/MundatiC"
             rel="noreferrer"
             target="_blank"
           >
             <i className="fa fa-github-square"></i>
           </a>
           <a
-            href="https://in.linkedin.com/in/akash-s-panickar-9893ab155"
+            href="https://in.linkedin.com/in/caleb-mundati"
             rel="noreferrer"
             target="_blank"
           >
