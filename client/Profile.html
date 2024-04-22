@@ -24,7 +24,7 @@
     <div class="p-6">
       <div class="flex flex-col gap-1">
         <label class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm" for="game">
-          Select Game
+          Math Kaboom
         </label>
         <button
           type="button"
@@ -77,16 +77,7 @@
                 Game
               </th>
               <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                High Score
-              </th>
-              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                Time Played
-              </th>
-              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
                 Equations Wrong
-              </th>
-              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                Completed
               </th>
             </tr>
           </thead>
@@ -187,6 +178,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   let userData;
+  let Email;
      // Function to show modal
      function showModal(modalId) {
       document.getElementById(modalId).classList.remove('hidden');
@@ -214,7 +206,8 @@
 
     const checkbox = document.getElementById('includeDataCheckbox');
     const includeData = checkbox.checked ? wrongEquationsList : [];
-    const studentEmail = 'mundati.caleb20@students.dkut.ac.ke';  // Assuming you have the student's email beforehand
+    const studentEmail = email;  // Assuming you have the student's email beforehand
+  console.log(studentEmail)
 
     // Log for debugging
     console.log("Message:", message);
@@ -264,7 +257,7 @@
     console.log(volume)
 
 
-    const userID = getQueryParameter('userID');
+   
 
     // Construct the data object required for the POST request
     const data = {
@@ -306,10 +299,7 @@
             const performanceData = userData.map(user => `
                 <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                     <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.GameName}</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.HighScore}</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.TimePlayed}</td>
                     <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.EquationsWrong}</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">${user.Equations ? 'Yes' : 'No'}</td>
                 </tr>
             `).join('');
             document.getElementById('performanceDataBody').innerHTML = performanceData;
@@ -332,14 +322,26 @@
   // Event listener for viewing performance button
   document.getElementById('viewPerformanceBtn').addEventListener('click', fetchGameData);
 
-  // Function to extract query parameters from the URL
-  const getQueryParameter = (name) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
-  };
+  function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    for (const [key, value] of urlParams) {
+        params[key] = value;
+    }
+    console.log(params);
+    return params;
+}
+
+
+const { userID, email } = getQueryParams();
+
+console.log(email)
+
+console.log(userID)
+
 
   window.onload = () => {
-    const userID = getQueryParameter('userID');
     if (userID) {
       fetchGameData(userID);
     } else {

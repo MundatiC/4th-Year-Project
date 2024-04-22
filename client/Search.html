@@ -83,11 +83,17 @@
                     user.FullName
                   }</div>
                 </div>
-                <button class="ml-auto text-sm text-blue-500 data-user-id="${user.UserID}" onclick="navigateToProfile('${user.UserID}')">View</button>
-              </div>
+                <button class="ml-auto text-sm text-blue-500" 
+        data-user-id="${user.UserID}" 
+        data-user-email="${user.Email}" 
+        onclick="navigateToProfile('${user.UserID}', '${user.Email}')">
+  View
+</button>
+
             `;
             searchResultsContainer.innerHTML += userCard;
           });
+          
         } catch (error) {
           console.error("Error searching for students:", error);
         }
@@ -103,8 +109,10 @@
         }
       });
       // Function to navigate to the Profile.html page with the user ID as a query parameter
-      const navigateToProfile = (userID) => {
-        window.location.href = `./Profile.html?userID=${userID}`;
+
+      const navigateToProfile = (userID, userEmail) => {
+        const encodedEmail = encodeURIComponent(userEmail);
+        window.location.href = `./Profile.html?userID=${userID}&email=${encodedEmail}`;
       };
     </script>
   </body>

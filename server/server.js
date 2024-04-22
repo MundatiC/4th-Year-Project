@@ -6,12 +6,7 @@ const sql = require("mssql");
 const path = require('path');
 const authRouter = require("./src/routes/authRoutes");
 const teacherRouter = require("./src/routes/teacherRoutes");
-
-
-
-
-
-
+const studentRouter = require("./src/routes/studentsRoutes")
 
 const app = express()
 const staticFilesDirectory = path.join(__dirname, './src/public');
@@ -54,6 +49,7 @@ async function connectToDatabase() {
         );
         app.use(authRouter)
         app.use(teacherRouter)
+        app.use(studentRouter)
 
 
         app.use("*", (req, res, next) => {

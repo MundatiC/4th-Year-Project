@@ -121,27 +121,40 @@ async function getUserGamesByUserID(req, res) {
     }
 }
 
-async function sendMailM(req,res){
+async function sendMailM(req, res) {
     let { teacherMessage, email, includeData } = req.body;
-    console.log(includeData)
 
     try {
-        let html = await createMarkup("./src/views/email.ejs", {teacherMessage: teacherMessage, includeData: includeData});
+        // Split includeData string into an array of equations
+        const equations = includeData.split(',');
+
+        // Iterate over equations array to calculate results for each equation
+        let equationsWithAnswers = [];
+        for (const equation of equations) {
+            const parts = equation.split('÷'); // Split by the division sign (÷) for demonstration
+            const result = parseInt(parts[0]) / parseInt(parts[1]);
+            equationsWithAnswers.push(`${equation} = ${result}`);
+        }
+
+        // Join equations with answers into a single string with commas
+        const equationsString = equationsWithAnswers.join(', ');
+
+        // Create HTML markup with equations and answers
+        let html = await createMarkup("./src/views/email.ejs", { teacherMessage: teacherMessage, includeData: equationsString });
 
         const message = {
             to: email,
             from: process.env.EMAIL_USER,
             subject: "Message from Your Teacher",
             html: html,
-          };
-          await sendMail(message);
+        };
 
-          res.status(200).send({
+        await sendMail(message);
+
+        res.status(200).send({
             success: true,
             message: "Email sent successfully",
-          })
-
-
+        });
     } catch (error) {
         res.status(500).send({
             success: false,
@@ -149,6 +162,8 @@ async function sendMailM(req,res){
         });
     }
 }
+
+
 
 
 

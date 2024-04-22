@@ -11,10 +11,10 @@ var commonMathOperators = '+-x÷';
 var jsMathOperators = '+-*/';			
 o.userSettings = {
 	
-	Math: null,
-	Numbers: null,
-	Speed: null,
-	Volume: null,
+	Math: '+',
+	Numbers: 5,
+	Speed: 0,
+	Volume: 0.3,
 	Speeds: {
 		Slow: 0,
 		Medium: 2,
@@ -1104,6 +1104,41 @@ var commafy = function(num){
 	num.reverse();
 	return num.join('');
 }
+
+function sendUserGameData( equationsWrong) {
+    const user = localStorage.getItem('userData');
+    if (!user) {
+        console.error('User data is not available in local storage.');
+        return;
+    }
+
+    const userData = JSON.parse(user);
+    const userID = userData.UserID;
+    
+    // Prepare data to be sent to the server
+    const postData = {
+        UserID: userID,
+        GameName: "Math Kaboom",
+        EquationsWrong: equationsWrong.length,
+        Equations: equationsWrong.join(",") // Assuming you want to send the equations as a CSV
+    };
+
+    // Send POST request to the server
+    fetch('http://localhost:5050/addUserGameData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server response:", data);
+    })
+    .catch(error => {
+        console.error('Error posting user game data:', error);
+    });
+}
 var addWinScreen = function(o){
 
 	o.win_screen = createElement('div',{
@@ -1140,6 +1175,8 @@ var addWinScreen = function(o){
 	}
 
 	append(o.game_screen,o.win_screen);
+
+	sendUserGameData( o.incorrectEquations);
 
 	return o;
 }
@@ -1184,6 +1221,8 @@ var addGameOverScreen = function(o){
 	console.log(o.incorrectEquations)
 
 	append(o.game_screen,o.gameOver_screen);
+
+	sendUserGameData(o.incorrectEquations);
 
 	return o;
 }
